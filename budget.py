@@ -1,3 +1,5 @@
+import math
+
 class Category:
   
   def __init__(self, cat_name):
@@ -60,8 +62,6 @@ class Category:
 
     return ret
 
-
-
 def create_spend_chart(categories):
     pairs = []
     total_spent = 0
@@ -70,9 +70,13 @@ def create_spend_chart(categories):
       total_spent += calculate_spending(category)
 
     for category in categories:
-      add_percentage_to_cat(category, round(calculate_spending(category)/total_spent, 1)*100, pairs)
+      add_percentage_to_cat(category, round(round_down(calculate_spending(category)/total_spent)*100), pairs)
 
     return draw_chart(pairs)
+
+def round_down(number, decimals=1):
+  factor = 10 ** decimals
+  return math.floor(number * factor) / factor
 
 def draw_chart(pairs):
   header = "Percentage spent by category" + "\n"
@@ -80,8 +84,6 @@ def draw_chart(pairs):
   percentage_chart = draw_percentages(pairs)
   
   categories_chart = draw_categories(pairs)
-
-  print("Solution : \n"+header+percentage_chart+categories_chart)
 
   return header+percentage_chart+categories_chart
 
@@ -127,7 +129,9 @@ def draw_categories(pairs):
           chart += " "
 
       if j == len(pairs)-1:
-        chart += "\n"
+        chart += " "
+        if i < max_name_len-1:
+          chart += "\n"
 
   return chart
 
