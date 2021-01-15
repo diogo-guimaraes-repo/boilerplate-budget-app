@@ -76,20 +76,62 @@ def create_spend_chart(categories):
 
 def draw_chart(pairs):
   header = "Percentage spent by category" + "\n"
+
+  percentage_chart = draw_percentages(pairs)
+  
+  categories_chart = draw_categories(pairs)
+
+  print("Solution : \n"+header+percentage_chart+categories_chart)
+
+  return header+percentage_chart+categories_chart
+
+def draw_percentages(pairs):
+  sep_length = len(pairs)*3+1
   chart = ""
-  for curr_percentage in range(100, 0 , -10):
+
+  for curr_percentage in range(100, -10 , -10):
     chart += str(curr_percentage).rjust(3) + "| "
     for i, pair in enumerate(pairs):
       if pair["percentage"] >= curr_percentage:
-        chart += "o "
+        chart += "o  "
+      else:
+        for j in range(3):
+          chart += " "
       if i == len(pairs)-1:
-        chart += " \n"
+        chart += "\n"
 
-  return header+chart
+  chart += "    "
+  for i in range(sep_length):
+    chart += "-"
+    if i == sep_length-1:
+      chart += "\n"      
+
+  return chart
+
+def draw_categories(pairs):
+  chart = ""
+  max_name_len = 0
+  
+  for pair in pairs:
+    if len(pair["category_name"]) > max_name_len:
+      max_name_len = len(pair["category_name"])
+ 
+  for i in range(max_name_len):
+    chart += "    "
+    for j, pair in enumerate(pairs):
+      cat_name = pair["category_name"]
+      if i < len(cat_name):
+        chart += cat_name[i].center(3, " ")
+      else:
+        for k in range(3):
+          chart += " "
+
+      if j == len(pairs)-1:
+        chart += "\n"
+
+  return chart
 
 
-
-   
 def add_percentage_to_cat(category, percentage, pairs):
   pair = {
     "category_name": category.name,
