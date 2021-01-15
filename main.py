@@ -16,10 +16,11 @@ auto = budget.Category("Auto")
 auto.deposit(1000, "initial deposit")
 auto.withdraw(15)
 
-print(food)
-print(clothing)
+print(food.get_balance())
+print(clothing.get_balance())
+print(auto.get_balance())
 
-print(create_spend_chart([food, clothing, auto]))
+#print(create_spend_chart([food, clothing, auto]))
 
 # Run unit tests automatically
 main(module='test_module', exit=False)
