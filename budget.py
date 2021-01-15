@@ -5,6 +5,20 @@ class Category:
     self.name = cat_name
     self.balance = 0
 
+  def __str__(self):
+    
+    header = self.name.center(30, "*") + "\n"
+    items = ""
+    total = "Total: " + str(self.balance)
+
+    for item in self.ledger:
+      description = item["description"][0:23].ljust(23, " ")
+      amount = float(item["amount"])
+      amount = str("{:.2f}".format(amount))[0:7].rjust(7, " ")
+      items += description + amount + "\n"
+
+    return header + items + total
+
   def deposit(self, amount, description=""):
     self.balance += amount
     
